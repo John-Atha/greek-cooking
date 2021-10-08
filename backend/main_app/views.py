@@ -139,15 +139,17 @@ class OneRecipe(APIView):
     def put(self, request, id):
         try:
             recipe = Recipe.objects.get(id=id)
-            if 'image' in request.data:
-                mime_type = get_mime_type(request.data['image'])
-                if 'image' not in mime_type:
-                    return Response('Invalid image file.', status=status.HTTP_400_BAD_REQUEST)
-            recipe = RecipeSerializer(recipe, data=request.data, partial=True)
-            if recipe.is_valid():
-                recipe.save()
-                return Response(recipe.data, status.HTTP_200_OK)
-            return Response(recipe.errors, status.HTTP_400_BAD_REQUEST)
+            if request.user == recipe.owner:
+                if 'image' in request.data:
+                    mime_type = get_mime_type(request.data['image'])
+                    if 'image' not in mime_type:
+                        return Response('Invalid image file.', status=status.HTTP_400_BAD_REQUEST)
+                recipe = RecipeSerializer(recipe, data=request.data, partial=True)
+                if recipe.is_valid():
+                    recipe.save()
+                    return Response(recipe.data, status.HTTP_200_OK)
+                return Response(recipe.errors, status.HTTP_400_BAD_REQUEST)
+            return Response("Unauthorized", status.HTTP_401_UNAUTHORIZED)
         except Recipe.DoesNotExist:
             return Response(f"Recipe '{id}' not found", status.HTTP_400_BAD_REQUEST)
 
@@ -228,6 +230,8 @@ class UserFavourites(APIView):
             return Response(f"User '{id}' not found", status.HTTP_400_BAD_REQUEST)
 
 class RecipeFans(APIView):
+    permission_classes = [permissions.AllowAny]
+
     def get(self, request, id):
         try:
             recipe = Recipe.objects.get(id=id)
