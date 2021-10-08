@@ -1,3 +1,4 @@
+import json
 from django.shortcuts import render
 from main_app.serializers import *
 from rest_framework.views import APIView
@@ -34,3 +35,39 @@ class Users(APIView):
                 return Response(user.data, status.HTTP_200_OK)
             return Response(user.errors, status.HTTP_400_BAD_REQUEST)
         return Response('Invalid passwords', status.HTTP_400_BAD_REQUEST)
+
+class OneUser(APIView):
+    permission_classes = [permissions.AllowAny]
+
+    def get(self, request, id):
+        try:
+            user = User.objects.get(id=id)
+            return Response(UserSerializer(user).data, status.HTTP_200_OK)
+        except User.DoesNotExist:
+            return Response(f"User '{id}' does not exist", status.HTTP_400_BAD_REQUEST)
+
+    def put(self, request, id):
+        try:
+            user = User.objects.get(id=id)
+            if request.user == user:
+                data = json.loads(request.body)
+                user = UserSerializer(user, data=data, partial=True)
+                if user.is_valid():
+                    user.save()
+                    return Response(user.data, status.HTTP_200_OK)
+                return Response(user.errors, status.HTTP_400_BAD_REQUEST)
+            return Response("Unauthorized", status.HTTP_401_UNAUTHORIZED)
+        except User.DoesNotExist:
+            return Response(f"User '{id}' does not exist", status.HTTP_400_BAD_REQUEST)
+
+    def delete(self, request, id):
+        try:
+            user = User.objects.get(id=id)
+            print('lalalala')
+            if request.user == user:
+                user.delete()
+                return Response(f"User '{id}' deleted", status.HTTP_400_BAD_REQUEST)
+            return Response("Unauthorized", status.HTTP_401_UNAUTHORIZED)
+        except User.DoesNotExist:
+            return Response(f"User '{id}' does not exist", status.HTTP_400_BAD_REQUEST)
+        
