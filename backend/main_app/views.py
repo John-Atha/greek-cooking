@@ -1,12 +1,17 @@
 import json
-from django.shortcuts import render
 from main_app.serializers import *
 from rest_framework.views import APIView
 from rest_framework.response import Response
-from rest_framework.parsers import JSONParser
 from rest_framework import permissions, status
-from django.http import JsonResponse
-from django.views.decorators.csrf import csrf_exempt
+import magic
+
+def get_mime_type(file):
+    initial_pos = file.tell()
+    file.seek(0)
+    mime_type = magic.from_buffer(file.read(1024), mime=True)
+    file.seek(initial_pos)
+    print(mime_type)
+    return mime_type
 
 class Users(APIView):
     permission_classes = [permissions.AllowAny]
@@ -16,21 +21,13 @@ class Users(APIView):
         return Response(users, status.HTTP_200_OK)
     
     def post(self, request):
-        username = request.POST.get('username')
-        password = request.POST.get('password')
-        confirmation = request.POST.get('confirmation')
-        email = request.POST.get('email')
-        data = {
-            'username': username,
-            'password': password,
-            'email': email,
-        }
-        if password == confirmation and password is not None:
-            user = UserSerializer(data=data)
+        print(request.data)
+        if request.data.get('password') == request.data.get('confirmation') and request.data.get('password') is not None:
+            user = UserSerializer(data=request.data)
             if user.is_valid():
                 user.save()
                 new_user = User.objects.get(id=user.data.get('id'))
-                new_user.set_password(password)
+                new_user.set_password(request.data.get('password'))
                 new_user.save()               
                 return Response(user.data, status.HTTP_200_OK)
             return Response(user.errors, status.HTTP_400_BAD_REQUEST)
@@ -44,13 +41,13 @@ class OneUser(APIView):
             user = User.objects.get(id=id)
             return Response(UserSerializer(user).data, status.HTTP_200_OK)
         except User.DoesNotExist:
-            return Response(f"User '{id}' does not exist", status.HTTP_400_BAD_REQUEST)
+            return Response(f"User '{id}' does not exist", status.HTTP_404_NOT_FOUND)
 
     def put(self, request, id):
         try:
             user = User.objects.get(id=id)
             if request.user == user:
-                data = json.loads(request.body)
+                data = request.data
                 user = UserSerializer(user, data=data, partial=True)
                 if user.is_valid():
                     user.save()
@@ -70,4 +67,59 @@ class OneUser(APIView):
             return Response("Unauthorized", status.HTTP_401_UNAUTHORIZED)
         except User.DoesNotExist:
             return Response(f"User '{id}' does not exist", status.HTTP_400_BAD_REQUEST)
-        
+
+class Recipes(APIView):
+    permission_classes = [permissions.AllowAny]
+
+    def get(self, request):
+        recipes = [RecipeSerializer(recipe).data for recipe in Recipe.objects.all()]
+        return Response(recipes, status.HTTP_200_OK)
+    
+    def post(self, request):
+        if not request.user.is_anonymous:
+            if 'image' in request.data:
+                mime_type = get_mime_type(request.data['image'])
+                if 'image' not in mime_type:
+                    return Response('Invalid image file.', status=status.HTTP_400_BAD_REQUEST)
+            recipe = Recipe(owner=request.user)
+            recipe = RecipeSerializer(recipe, data=request.data)
+            if recipe.is_valid():
+                recipe.save()
+                return Response(recipe.data, status.HTTP_200_OK)
+            return Response(recipe.errors, status.HTTP_400_BAD_REQUEST)
+        return Response("Unauthorized", status.HTTP_401_UNAUTHORIZED)
+
+class OneRecipe(APIView):
+    permission_classes = [permissions.AllowAny]
+
+    def get(self, request, id):
+        try:
+            recipe = Recipe.objects.get(id=id)
+            return Response(RecipeSerializer(recipe).data, status.HTTP_200_OK)
+        except Recipe.DoesNotExist:
+            return Response(f"Recipe '{id}' not found", status.HTTP_404_NOT_FOUND)
+    
+    def put(self, request, id):
+        try:
+            recipe = Recipe.objects.get(id=id)
+            if 'image' in request.data:
+                mime_type = get_mime_type(request.data['image'])
+                if 'image' not in mime_type:
+                    return Response('Invalid image file.', status=status.HTTP_400_BAD_REQUEST)
+            recipe = RecipeSerializer(recipe, data=request.data, partial=True)
+            if recipe.is_valid():
+                recipe.save()
+                return Response(recipe.data, status.HTTP_200_OK)
+            return Response(recipe.errors, status.HTTP_400_BAD_REQUEST)
+        except Recipe.DoesNotExist:
+            return Response(f"Recipe '{id}' not found", status.HTTP_400_BAD_REQUEST)
+
+    def delete(self, request, id):
+        try:
+            recipe = Recipe.objects.get(id=id)
+            if request.user == recipe.owner:
+                recipe.delete()
+                return Response("Recipe deleted", status.HTTP_200_OK)
+            return Response("Unauthorized", status.HTTP_401_UNAUTHORIZED)
+        except Recipe.DoesNotExist:
+            return Response(f"Recipe '{id}' not found", status.HTTP_400_BAD_REQUEST)
