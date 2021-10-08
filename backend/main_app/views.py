@@ -13,12 +13,44 @@ def get_mime_type(file):
     print(mime_type)
     return mime_type
 
+def paginate(start, end, items):
+    if start is not None:
+        try:
+            start = int(start)
+            if start<1:
+                return Response({"error": "Invalid start parameter."}, status.HTTP_400_BAD_REQUEST)
+        except ValueError:
+            return Response({"error": "Invalid start parameter."}, status.HTTP_400_BAD_REQUEST)
+        items = items[start-1:]
+    if end is not None:
+        try:
+            end = int(end)
+            if start:
+                if end<start:
+                    return Response({"error": "End parameter must be larger or equal to start parameter."}, status.HTTP_400_BAD_REQUEST)
+                else:
+                    items = items[:end-start+1]
+            else:
+                if end>0:
+                    items = items[:end]
+                else:
+                    return Response({"error": "Invalid end parameter."}, status.HTTP_400_BAD_REQUEST)
+        except ValueError:
+            return Response({"error": "Invalid end parameter."}, status.HTTP_400_BAD_REQUEST)
+    return items
+
+
 class Users(APIView):
     permission_classes = [permissions.AllowAny]
 
     def get(self, request):
+        start = request.GET.get('start')
+        end = request.GET.get('end')
         users = [UserSerializer(user).data for user in User.objects.all()]
-        return Response(users, status.HTTP_200_OK)
+        res = paginate(start, end, users)
+        if type(res) == Response:
+            return res
+        return Response(res, status.HTTP_200_OK)
     
     def post(self, request):
         print(request.data)
@@ -72,8 +104,13 @@ class Recipes(APIView):
     permission_classes = [permissions.AllowAny]
 
     def get(self, request):
+        start = request.GET.get('start')
+        end = request.GET.get('end')
         recipes = [RecipeSerializer(recipe).data for recipe in Recipe.objects.all()]
-        return Response(recipes, status.HTTP_200_OK)
+        res = paginate(start, end, recipes)
+        if type(res) == Response:
+            return res
+        return Response(res, status.HTTP_200_OK)
     
     def post(self, request):
         if not request.user.is_anonymous:
@@ -123,3 +160,19 @@ class OneRecipe(APIView):
             return Response("Unauthorized", status.HTTP_401_UNAUTHORIZED)
         except Recipe.DoesNotExist:
             return Response(f"Recipe '{id}' not found", status.HTTP_400_BAD_REQUEST)
+
+class UserRecipes(APIView):
+    permission_classes = [permissions.AllowAny]
+
+    def get(self, request, id):
+        try:
+            user = User.objects.get(id=id)
+            start = request.GET.get('start')
+            end = request.GET.get('end')
+            recipes = [RecipeSerializer(recipe).data for recipe in user.recipes.all()]
+            res = paginate(start, end, recipes)
+            if type(res) == Response:
+                return res
+            return Response(res, status.HTTP_200_OK)
+        except User.DoesNotExist:
+            return Response(f"User '{id}' not found", status.HTTP_400_BAD_REQUEST)
