@@ -14,4 +14,5 @@ urlpatterns = [
     path('recipes/<int:id>', OneRecipe.as_view(), name='Recipe'),
     path('users/<int:id>/recipes', UserRecipes.as_view(), name='User-Recipes'),
     path('users/<int:id>/favourites', UserFavourites.as_view(), name='User-Favourites'),
+    path('recipes/<int:id>/fans', RecipeFans.as_view(), name='Recipe-Fans'),
 ]

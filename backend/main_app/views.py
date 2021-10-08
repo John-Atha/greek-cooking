@@ -226,3 +226,17 @@ class UserFavourites(APIView):
             return Response("Unauthorized", status.HTTP_401_UNAUTHORIZED)
         except User.DoesNotExist:
             return Response(f"User '{id}' not found", status.HTTP_400_BAD_REQUEST)
+
+class RecipeFans(APIView):
+    def get(self, request, id):
+        try:
+            recipe = Recipe.objects.get(id=id)
+            start = request.GET.get('start')
+            end = request.GET.get('end')
+            fans = [UserSerializer(user).data for user in recipe.fans.all()]
+            res = paginate(start, end, fans)
+            if type(res) == Response:
+                return res
+            return Response(res, status.HTTP_200_OK)
+        except Recipe.DoesNotExist:
+            return Response(f"Recipe '{id}' not found", status.HTTP_400_BAD_REQUEST)
