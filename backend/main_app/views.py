@@ -176,3 +176,53 @@ class UserRecipes(APIView):
             return Response(res, status.HTTP_200_OK)
         except User.DoesNotExist:
             return Response(f"User '{id}' not found", status.HTTP_400_BAD_REQUEST)
+
+class UserFavourites(APIView):
+    permission_classes = [permissions.AllowAny]
+
+    def get(self, request, id):
+        try:
+            user = User.objects.get(id=id)
+            start = request.GET.get('start')
+            end = request.GET.get('end')
+            recipes = [RecipeSerializer(recipe).data for recipe in user.favourites.all()]
+            res = paginate(start, end, recipes)
+            if type(res) == Response:
+                return res
+            return Response(res, status.HTTP_200_OK)
+        except User.DoesNotExist:
+            return Response(f"User '{id}' not found", status.HTTP_400_BAD_REQUEST)
+    
+    def post(self, request, id):
+        try:
+            user = User.objects.get(id=id)
+            if request.user == user:
+                recipe_id = request.data.get('recipe_id')
+                if recipe_id:
+                    try:
+                        recipe = Recipe.objects.get(id=recipe_id)
+                        user.favourites.add(recipe)
+                        return Response([UserSerializer(user).data for user in recipe.fans.all()])
+                    except Recipe.DoesNotExist:
+                        return Response(f"Recipe '{recipe_id}' not found", status.HTTP_400_BAD_REQUEST)
+                return Response("No recipe id given", status.HTTP_400_BAD_REQUEST)
+            return Response("Unauthorized", status.HTTP_401_UNAUTHORIZED)
+        except User.DoesNotExist:
+            return Response(f"User '{id}' not found", status.HTTP_400_BAD_REQUEST)
+
+    def delete(self, request, id):
+        try:
+            user = User.objects.get(id=id)
+            if request.user == user:
+                recipe_id = request.GET.get('recipe_id')
+                if recipe_id:
+                    try:
+                        recipe = Recipe.objects.get(id=recipe_id)
+                        user.favourites.remove(recipe)
+                        return Response([UserSerializer(user).data for user in recipe.fans.all()])
+                    except Recipe.DoesNotExist:
+                        return Response(f"Recipe '{recipe_id}' not found", status.HTTP_400_BAD_REQUEST)
+                return Response("No recipe id given", status.HTTP_400_BAD_REQUEST)
+            return Response("Unauthorized", status.HTTP_401_UNAUTHORIZED)
+        except User.DoesNotExist:
+            return Response(f"User '{id}' not found", status.HTTP_400_BAD_REQUEST)
