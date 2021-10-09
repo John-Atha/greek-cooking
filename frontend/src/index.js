@@ -1,15 +1,20 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { BrowserRouter, Switch, Route, useParams } from 'react-router-dom';
+import ReactNotifications from "react-notifications-component";
+import { CookiesProvider } from 'react-cookie';
+
 import './index.css';
 import 'bootstrap/dist/css/bootstrap.css';
 import "bootstrap-icons/font/bootstrap-icons.css";
-import { CookiesProvider } from 'react-cookie';
+import 'react-notifications-component/dist/theme.css'
+
 import LoginRegister from './Pages/LoginRegister';
 import Home from './Pages/Home';
 
 ReactDOM.render(
   <React.StrictMode>
+    <ReactNotifications />
     <CookiesProvider>
       <BrowserRouter>
         <Switch>
