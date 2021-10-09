@@ -11,6 +11,7 @@ import 'react-notifications-component/dist/theme.css'
 
 import LoginRegister from './Pages/LoginRegister';
 import Home from './Pages/Home';
+import SearchPage from './Pages/SearchPage';
 
 ReactDOM.render(
   <React.StrictMode>
@@ -23,6 +24,9 @@ ReactDOM.render(
           </Route>
           <Route path='/register' exact>
             <LoginRegister register={true} />
+          </Route>
+          <Route path='/search' exact>
+            <SearchPage />
           </Route>
           <Route path='/' exact>
             <Home />

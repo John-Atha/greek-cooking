@@ -13,10 +13,17 @@ export const Container = styled.div`
     marign: auto;
     max-width: 100vw;
 `
-export const TitleButton = styled.button`
+export const TitleHref = styled.a`
     border: none;
     background-color: rgb(198, 247, 190, 0.5);
+    text-decoration: none;
+    color: black;
     font-size: 1.2rem;
+    padding: 5px;
+    &:hover { 
+        text-decoration: none;
+        cursor: pointer;
+    }
 `
 
 export const Description = styled.div`

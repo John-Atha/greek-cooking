@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Container, TitleButton, RecipeImg, Description, Header, Fans, Break, LikeImg } from './styles';
+import { Container, TitleHref, RecipeImg, Description, Header, Fans, Break, LikeImg } from './styles';
 import heart_icon from 'bootstrap-icons/icons/heart.svg';
 import heart_filled_icon from 'bootstrap-icons/icons/heart-fill.svg';
 import { Button } from 'react-bootstrap';
@@ -22,7 +22,7 @@ function Recipe(props) {
     }, [props.userId])
 
     useEffect(() => {
-        if (recipe && userId) {
+        if (recipe && userId && !props.brief) {
             let liked_temp = false;
             recipe.fans.forEach((fan) => {
                 if (fan.id===userId) {
@@ -34,6 +34,7 @@ function Recipe(props) {
     }, [recipe, userId])
 
     const updLiked = () => {
+        if (props.brief) return;
         if (liked) {
             unlike(cookies.token, userId, recipe.id)
             .then(response => {
@@ -58,19 +59,26 @@ function Recipe(props) {
 
     return (
         <Container>
-            <TitleButton>{recipe.title}</TitleButton>
+            <TitleHref href={`/recipes/${recipe.id}`}>{recipe.title}</TitleHref>
             <Fans onClick={updLiked}>
                 <LikeImg src={liked ? heart_filled_icon : heart_icon} alt='fans' />
-                <div>{recipe.fans.length}</div>
+                <div>{typeof(recipe.fans)==='number' ? recipe.fans : recipe.fans.length}</div>
             </Fans>
             <Break />
             <Header>From <a href={`/users/${recipe.owner.id}`}>{recipe.owner.username}</a>, on {recipe.uploaded_at.slice(0, 10)}</Header>
             <Break />
-            <RecipeImg src={`http://127.0.0.1:8000${recipe.image}`} alt={recipe.title}/>
+            {recipe.image && !props.brief &&
+                <RecipeImg src={`http://127.0.0.1:8000${recipe.image}`} alt={recipe.title}/>        
+            }
             <Break />
             <hr style={{'margin': '4px', 'width': '100%'}} />
             <Break />
-            <Description>{`${recipe.description.slice(0, 200)} ...`}</Description>
+            {props.brief &&
+                <Description>{recipe.description}</Description>
+            }
+            {!props.brief &&
+                <Description>{`${recipe.description.slice(0, 200)} ...`}</Description>
+            }
             <Break />
             <Button variant='success' style={{'marginTop': '10px'}}>See details</Button>
         </Container>
