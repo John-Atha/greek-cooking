@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import { isLogged, getAllBriefRecipes } from '../api/api';
+import { isLogged, getAllRecipes } from '../api/api';
 import { useCookies } from 'react-cookie';
 import { ScrollablePage } from './styles';
-import BriefRecipe from '../Components/Recipe/BriefRecipe';
+import Recipe from '../Components/Recipe/Recipe';
+import MyNavbar from '../Components/Navbar/MyNavbar';
 
 function Home() {
     const [userId, setUserId] = useState(null);
@@ -23,7 +24,7 @@ function Home() {
     }
 
     const getRecipes = () => {
-        getAllBriefRecipes()
+        getAllRecipes()
         .then(response => {
             setRecipes(response.data);
         })
@@ -39,11 +40,13 @@ function Home() {
 
     return (
         <ScrollablePage>
+            <MyNavbar />
+            <div style={{'marginTop': '70px'}} />
             <h2>Latest recipes</h2>
             <div>
                 {recipes.map(value => {
                     return (
-                        <BriefRecipe recipe={value} key={value.id} />
+                        <Recipe recipe={value} key={value.id} userId={userId} />
                     )
                 })}
             </div>

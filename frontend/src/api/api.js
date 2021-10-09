@@ -50,3 +50,31 @@ export const getAllBriefRecipes = () => {
     };
     return axios.get(requestUrl, { params });
 }
+
+export const getAllRecipes = () => {
+    const requestUrl = '/recipes';
+    return axios.get(requestUrl);
+}
+
+export const like = (token, userId, recipeId) => {
+    const requestUrl = `/users/${userId}/favourites`;
+    const headers = buildAuthHeader(token);
+    headers["Content-Type"] = "multipart/form-data";
+    const bodyFormData = new FormData();
+    bodyFormData.append('recipe_id', recipeId);
+    return axios.post(requestUrl, bodyFormData, { headers });
+}
+
+export const unlike = (token, userId, recipeId) => {
+    const requestUrl = `/users/${userId}/favourites`;
+    const headers = buildAuthHeader(token);
+    const data = {
+        recipe_id: recipeId,
+    }
+    return axios.delete(requestUrl, { headers, data });
+}
+
+export const getOneRecipe = (id) => {
+    const requestUrl = `/recipes/${id}`;
+    return axios.get(requestUrl);
+}

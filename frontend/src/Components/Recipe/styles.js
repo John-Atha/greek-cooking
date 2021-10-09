@@ -8,6 +8,7 @@ export const Container = styled.div`
     margin: 10px;
     background-color: white;
     ${with_whitespace}
+    ${flex_wrap}
     width: 600px;
     marign: auto;
     max-width: 100vw;
@@ -30,9 +31,28 @@ export const Header = styled.div`
     }
 `
 
-export const Fans = styled.div`
-    position: absolute;
-    right: 5px;
-    bottom: 5px;
+export const Fans = styled.button`
     ${flex_wrap}
+    margin: 10px;
+    border: none;
+    background-color: inherit;
+`
+
+export const RecipeImg = styled.img`
+    width: 90%;
+    max-width: 700px;
+    height: auto;
+    border-radius: 7px;
+    margin: 10px 5px;
+`
+
+export const Break = styled.div`
+    flex-basis: 100%;
+    height: 0;
+`
+
+export const LikeImg = styled.img`
+    height: 20px;
+    margin-top: 2px;
+    margin-right: 2px;
 `
