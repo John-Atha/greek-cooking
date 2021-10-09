@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import { Container, TitleHref, RecipeImg, Description, Header, Fans, Break, LikeImg } from './styles';
+import { Container, TitleHref, RecipeImg, Description, Header, Fans, Break, LikeImg, EditImg, EditButton } from './styles';
 import heart_icon from 'bootstrap-icons/icons/heart.svg';
 import heart_filled_icon from 'bootstrap-icons/icons/heart-fill.svg';
+import edit_icon from 'bootstrap-icons/icons/pen.svg';
 import { Button } from 'react-bootstrap';
 import { like, unlike } from '../../api/api';
 import { useCookies } from 'react-cookie';
@@ -64,9 +65,22 @@ function Recipe(props) {
         }
     }
 
+    const edit = () => {
+        if (!props.page) {
+            window.location.href=`/recipes/${recipe.id}`;
+        }
+    }
+
     return (
         <Container>
             <TitleHref href={`/recipes/${recipe.id}`}>{recipe.title}</TitleHref>
+            {userId === props.recipe.owner.id &&
+                <EditButton onClick={edit}>
+                    <EditImg src={edit_icon} alt='edit' />
+                    <div>Edit</div>
+                </EditButton>
+                
+            }
             <Fans onClick={updLiked}>
                 <LikeImg src={liked ? heart_filled_icon : heart_icon} alt='fans' />
                 <div>{typeof(recipe.fans)==='number' ? recipe.fans : recipe.fans.length}</div>

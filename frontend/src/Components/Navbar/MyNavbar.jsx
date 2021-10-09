@@ -24,7 +24,8 @@ function MyNavbar(props) {
             createNotification('danger', 'Sorry', `You have to login to have a '${link} recipes' page.`)
         }
         else {
-            window.location.href = `/${link}`;
+            if (link==='profile') window.location.href = `/users/${userId}`;
+            else window.location.href = `/${link}`;
         }
     }
 
@@ -37,6 +38,7 @@ function MyNavbar(props) {
                 <Nav.Link href="/search">Search</Nav.Link>
                 <Nav.Link onClick={()=>navigate('favourites')}>My Favourites</Nav.Link>
                 <Nav.Link onClick={()=>navigate('my')}>My recipes</Nav.Link>
+                <Nav.Link onClick={()=>navigate('profile')}>My Profile</Nav.Link>
                 <Nav.Link onClick={()=>navigate('upload')}>Upload</Nav.Link>
             </Nav>
             <Nav>

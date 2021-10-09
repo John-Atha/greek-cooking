@@ -63,3 +63,17 @@ export const LikeImg = styled.img`
     margin-top: 2px;
     margin-right: 2px;
 `
+
+export const EditImg = styled.img`
+    font-size: 1rem;
+    margin: 3px;
+`
+
+export const EditButton = styled.button`
+    border: none;
+    background-color: inherit;
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    ${flex_wrap}
+`
