@@ -43,7 +43,7 @@ export const register = (username, password, confirmation, email) => {
     });
 }
 
-export const getAllBriefRecipes = () => {
+export const getAllBriefRecipes = (dummy=null) => {
     const requestUrl = '/recipes';
     const params = {
         briefly: 'true',
@@ -51,8 +51,19 @@ export const getAllBriefRecipes = () => {
     return axios.get(requestUrl, { params });
 }
 
-export const getAllRecipes = () => {
+export const getAllRecipes = (start, end) => {
     const requestUrl = '/recipes';
+    const params = { start, end }
+    return axios.get(requestUrl, { params });
+}
+
+export const getFavRecipes = (id) => {
+    const requestUrl = `/users/${id}/favourites`;
+    return axios.get(requestUrl);
+}
+
+export const getUserRecipes = (id) => {
+    const requestUrl = `/users/${id}/recipes`;
     return axios.get(requestUrl);
 }
 

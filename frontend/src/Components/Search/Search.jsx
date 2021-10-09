@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { getAllBriefRecipes } from '../../api/api';
+import { getAllBriefRecipes, getFavRecipes, getUserRecipes } from '../../api/api';
 import Recipe from '../Recipe/Recipe';
 import { Form, Button, InputGroup } from 'react-bootstrap';
 import search_icon from 'bootstrap-icons/icons/search.svg';
@@ -15,7 +15,24 @@ function Search(props) {
     const [text, setText] = useState('');
 
     const getRecipes = () => {
-        getAllBriefRecipes()
+        let f = null;
+        let id = null;
+        switch (props.case) {
+            case 'All':
+                f = getAllBriefRecipes;
+                break;
+            case 'Favourite':
+                f = getFavRecipes;
+                id = userId;
+                break;
+            case 'My':
+                f = getUserRecipes;
+                id = userId;
+                break;
+        }
+        console.log(f);
+        console.log(id);
+        f(id)
         .then(response => {
             setRecipes(response.data);
             setSuggestions(response.data);
@@ -27,7 +44,7 @@ function Search(props) {
 
     useEffect(() => {
         getRecipes();
-    }, [])
+    }, [userId])
 
     useEffect(() => {
         setUserId(props.userId);
@@ -74,7 +91,7 @@ function Search(props) {
             <div>
                 {suggestions.map(value => {
                     return (
-                        <Recipe brief={true} recipe={value} key={value.id} userId={userId} />
+                        <Recipe brief={props.case==='All'} recipe={value} key={value.id} userId={userId} />
                     )
                 })}
                 {!suggestions.length &&

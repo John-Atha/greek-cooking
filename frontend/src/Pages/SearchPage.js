@@ -5,7 +5,7 @@ import MyNavbar from '../Components/Navbar/MyNavbar';
 import { isLogged } from '../api/api';
 import { useCookies } from 'react-cookie';
 
-function SearchPage() {
+function SearchPage(props) {
 
     const [userId, setUserId] = useState(null);
     const [username, setUsername] = useState(null);
@@ -19,7 +19,7 @@ function SearchPage() {
             setUsername(response.data.username);
         })
         .catch(() => {
-            ;
+            if (props.case==='Favourite' || props.case==='My') window.location.href='/';
         })
     }
 
@@ -31,7 +31,8 @@ function SearchPage() {
         <ScrollablePage>
             <MyNavbar userId={userId} username={username} />
             <div style={{'marginTop': '70px'}} />
-            <Search userId={userId} username={username} />
+            <h2>{props.case} recipes</h2>
+            <Search userId={userId} username={username} case={props.case} />
         </ScrollablePage>
     )
 

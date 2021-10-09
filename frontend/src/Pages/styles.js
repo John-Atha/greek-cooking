@@ -7,4 +7,5 @@ export const ScrollablePage = styled.div`
     overflow-y: auto;
     overflow-x: hidden;
     padding-left: 2px;
+    padding-bottom: 10px;
 `

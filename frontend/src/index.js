@@ -26,7 +26,13 @@ ReactDOM.render(
             <LoginRegister register={true} />
           </Route>
           <Route path='/search' exact>
-            <SearchPage />
+            <SearchPage case='All' />
+          </Route>
+          <Route path='/favourites' exact>
+            <SearchPage case='Favourite' />
+          </Route>
+          <Route path='/my' exact>
+            <SearchPage case='My' />
           </Route>
           <Route path='/' exact>
             <Home />

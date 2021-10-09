@@ -4,6 +4,7 @@ import { useCookies } from 'react-cookie';
 import { ScrollablePage } from './styles';
 import Recipe from '../Components/Recipe/Recipe';
 import MyNavbar from '../Components/Navbar/MyNavbar';
+import { Button } from 'react-bootstrap';
 
 function Home() {
     const [userId, setUserId] = useState(null);
@@ -11,6 +12,7 @@ function Home() {
     const [recipes, setRecipes] = useState([]);
     const [cookies, setCookie] = useCookies(['token']);
     const [noData, setNoData] = useState(false);
+    const [start, setStart] = useState(1);
 
     const checkLogged = () => {
         isLogged(cookies.token)
@@ -24,7 +26,7 @@ function Home() {
     }
 
     const getRecipes = () => {
-        getAllRecipes()
+        getAllRecipes(start, start+10)
         .then(response => {
             setRecipes(response.data);
         })
@@ -35,8 +37,11 @@ function Home() {
 
     useEffect(() => {
         checkLogged();
-        getRecipes();
     }, [])
+
+    useEffect(() => {
+        getRecipes();
+    }, [start])
 
     return (
         <ScrollablePage>
@@ -50,6 +55,7 @@ function Home() {
                     )
                 })}
             </div>
+            <Button variant='primary' style={{'width': '90%', 'marginLeft': '5%'}}>See more</Button>
         </ScrollablePage>
     )
 
