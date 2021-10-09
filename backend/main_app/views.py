@@ -39,6 +39,11 @@ def paginate(start, end, items):
             return Response({"error": "Invalid end parameter."}, status.HTTP_400_BAD_REQUEST)
     return items
 
+class IsLogged(APIView):
+    permission_classes = [permissions.IsAuthenticated]
+
+    def get(self, request):
+        return Response({'id': request.user.id, 'username': request.user.username}, status.HTTP_200_OK)
 
 class Users(APIView):
     permission_classes = [permissions.AllowAny]
