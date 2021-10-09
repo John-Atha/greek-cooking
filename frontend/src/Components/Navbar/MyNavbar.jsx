@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Navbar, Nav, Modal, Button } from 'react-bootstrap';
 import { useCookies } from 'react-cookie';
+import { createNotification } from '../../createNotification';
 
 function MyNavbar(props) {
 
@@ -18,6 +19,15 @@ function MyNavbar(props) {
         setTimeout(() => {window.location.reload()}, 200);
     }
 
+    const navigate = (link) => {
+        if (!userId) {
+            createNotification('danger', 'Sorry', `You have to login to have a '${link} recipes' page.`)
+        }
+        else {
+            window.location.href = `/${link}`;
+        }
+    }
+
     return (
         <Navbar bg="success" expand="sm" fixed='top'>
             <Navbar.Brand href="/">Greeek Cooking</Navbar.Brand>
@@ -25,8 +35,9 @@ function MyNavbar(props) {
             <Navbar.Collapse id="basic-navbar-nav">
             <Nav className="me-auto">
                 <Nav.Link href="/search">Search</Nav.Link>
-                <Nav.Link href="/favourites">My Favourites</Nav.Link>
-                <Nav.Link href="/my">My recipes</Nav.Link>
+                <Nav.Link onClick={()=>navigate('favourites')}>My Favourites</Nav.Link>
+                <Nav.Link onClick={()=>navigate('my')}>My recipes</Nav.Link>
+                <Nav.Link onClick={()=>navigate('upload')}>Upload</Nav.Link>
             </Nav>
             <Nav>
                 {!userId &&

@@ -34,7 +34,14 @@ function Recipe(props) {
     }, [recipe, userId])
 
     const updLiked = () => {
-        if (props.brief) return;
+        if (!userId) {
+            createNotification('danger', 'Sorry', 'You have to login to add a recipe to your favourites.');
+            return;
+        }
+        if (props.brief) {
+            createNotification('warning', 'Hello,', 'Visit the recipe\'s page to add it to your favourites.');
+            return;
+        }
         if (liked) {
             unlike(cookies.token, userId, recipe.id)
             .then(response => {
@@ -73,14 +80,19 @@ function Recipe(props) {
             <Break />
             <hr style={{'margin': '4px', 'width': '100%'}} />
             <Break />
-            {props.brief &&
+            {props.brief && !props.page &&
                 <Description>{recipe.description}</Description>
             }
-            {!props.brief &&
+            {!props.brief && !props.page &&
                 <Description>{`${recipe.description.slice(0, 200)} ...`}</Description>
             }
+            {props.page &&
+                <Description>{recipe.description}</Description>
+            }
             <Break />
-            <Button variant='success' style={{'marginTop': '10px'}}>See details</Button>
+            {!props.page &&
+                <Button variant='success' style={{'marginTop': '10px'}} onClick={()=>window.location.href=`/recipes/${recipe.id}`}>See details</Button>        
+            }
         </Container>
     )
 }

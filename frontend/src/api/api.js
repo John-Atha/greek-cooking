@@ -89,3 +89,8 @@ export const getOneUser = (id) => {
     const requestUrl = `/users/${id}`;
     return axios.get(requestUrl);
 }
+
+export const getOneRecipe = (id) => {
+    const requestUrl = `/recipes/${id}`;
+    return axios.get(requestUrl);
+}

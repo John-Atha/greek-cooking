@@ -13,10 +13,16 @@ import LoginRegister from './Pages/LoginRegister';
 import Home from './Pages/Home';
 import SearchPage from './Pages/SearchPage';
 import Profile from './Pages/Profile';
+import OneRecipe from './Pages/OneRecipe';
 
 const FindProfile = () => {
   const { id } = useParams();
   return <Profile id={id} />;
+}
+
+const FindRecipe = () => {
+  const { id } = useParams();
+  return <OneRecipe id={id} />;
 }
 
 ReactDOM.render(
@@ -42,6 +48,9 @@ ReactDOM.render(
           </Route>
           <Route path='/users/:id'>
             <FindProfile />
+          </Route>
+          <Route path='/recipes/:id'>
+            <FindRecipe />
           </Route>
           <Route path='/' exact>
             <Home />
