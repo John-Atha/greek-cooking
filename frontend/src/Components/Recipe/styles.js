@@ -5,11 +5,11 @@ export const Container = styled.div`
     border: 1px solid grey;
     padding: 5px;
     border-radius: 7px;
-    margin: 10px;
+    margin: 10px auto;
     background-color: white;
     ${with_whitespace}
     ${flex_wrap}
-    width: 600px;
+    width: 800px;
     marign: auto;
     max-width: 100vw;
 `
@@ -46,11 +46,11 @@ export const Fans = styled.button`
 `
 
 export const RecipeImg = styled.img`
-    width: 90%;
+    width: 80%;
     max-width: 700px;
     height: auto;
     border-radius: 7px;
-    margin: 10px 5px;
+    margin: 10px 10%;
 `
 
 export const Break = styled.div`

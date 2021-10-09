@@ -85,7 +85,7 @@ export const unlike = (token, userId, recipeId) => {
     return axios.delete(requestUrl, { headers, data });
 }
 
-export const getOneRecipe = (id) => {
-    const requestUrl = `/recipes/${id}`;
+export const getOneUser = (id) => {
+    const requestUrl = `/users/${id}`;
     return axios.get(requestUrl);
 }

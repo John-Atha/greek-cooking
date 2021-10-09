@@ -12,6 +12,12 @@ import 'react-notifications-component/dist/theme.css'
 import LoginRegister from './Pages/LoginRegister';
 import Home from './Pages/Home';
 import SearchPage from './Pages/SearchPage';
+import Profile from './Pages/Profile';
+
+const FindProfile = () => {
+  const { id } = useParams();
+  return <Profile id={id} />;
+}
 
 ReactDOM.render(
   <React.StrictMode>
@@ -33,6 +39,9 @@ ReactDOM.render(
           </Route>
           <Route path='/my' exact>
             <SearchPage case='My' />
+          </Route>
+          <Route path='/users/:id'>
+            <FindProfile />
           </Route>
           <Route path='/' exact>
             <Home />

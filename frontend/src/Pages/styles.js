@@ -8,4 +8,14 @@ export const ScrollablePage = styled.div`
     overflow-x: hidden;
     padding-left: 2px;
     padding-bottom: 10px;
+    text-align: center;
+`
+
+export const ProfileInfo = styled.div`
+    padding: 5px;
+    margin: auto;
+    width: 300px;
+    overflow-x: auto;
+    font-size: 1.2rem;
+    text-align: center;
 `

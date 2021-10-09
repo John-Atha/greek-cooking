@@ -27,7 +27,7 @@ function Search(props) {
                 break;
             case 'My':
                 f = getUserRecipes;
-                id = userId;
+                id = props.id || userId;
                 break;
         }
         console.log(f);
@@ -36,6 +36,9 @@ function Search(props) {
         .then(response => {
             setRecipes(response.data);
             setSuggestions(response.data);
+            if (props.setRecipesNum) {
+                props.setRecipesNum(response.data.length);
+            }
         })
         .catch(() => {
             setNoData(true);
@@ -75,9 +78,9 @@ function Search(props) {
     }, [text])
     
     return (
-        <div>
-            <Form style={{'margin': '20px 0px', 'display': 'flex', 'flexFlow': 'row wrap'}} onSubmit={submit}>
-                <InputGroup className="mb-3" controlId="formBasicText" style={{'width': '100%', 'maxWidth': '500px'}}>
+        <div style={{'text-align': 'center'}}>
+            <Form style={{'margin': '20px auto', 'display': 'flex', 'flexFlow': 'row wrap', 'width': '350px'}} onSubmit={submit}>
+                <InputGroup className="mb-3" controlId="formBasicText" style={{'width': '250px'}}>
                     <InputGroup.Text>
                         <img src={search_icon} alt="search" />
                     </InputGroup.Text>
@@ -88,7 +91,7 @@ function Search(props) {
                 </Button>
             </Form>
 
-            <div>
+            <div style={{'text-align': 'center'}}>
                 {suggestions.map(value => {
                     return (
                         <Recipe brief={props.case==='All'} recipe={value} key={value.id} userId={userId} />
