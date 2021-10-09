@@ -42,3 +42,11 @@ export const register = (username, password, confirmation, email) => {
         }
     });
 }
+
+export const getAllBriefRecipes = () => {
+    const requestUrl = '/recipes';
+    const params = {
+        briefly: 'true',
+    };
+    return axios.get(requestUrl, { params });
+}

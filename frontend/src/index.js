@@ -6,6 +6,7 @@ import 'bootstrap/dist/css/bootstrap.css';
 import "bootstrap-icons/font/bootstrap-icons.css";
 import { CookiesProvider } from 'react-cookie';
 import LoginRegister from './Pages/LoginRegister';
+import Home from './Pages/Home';
 
 ReactDOM.render(
   <React.StrictMode>
@@ -17,6 +18,9 @@ ReactDOM.render(
           </Route>
           <Route path='/register' exact>
             <LoginRegister register={true} />
+          </Route>
+          <Route path='/' exact>
+            <Home />
           </Route>
         </Switch>
       </BrowserRouter>

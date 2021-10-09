@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { login } from '../../api/api';
-import { Page, Container, Success, Error } from './styles';
+import { Container, Success, Error } from './styles';
 import { Form, Button, InputGroup } from 'react-bootstrap';
 import person_icon from 'bootstrap-icons/icons/person.svg';
 import lock_icon from 'bootstrap-icons/icons/lock.svg';
@@ -28,6 +28,7 @@ function Login() {
             setCookie('token', response.data.access, { path: '/' });
             setSuccess('Logged in successfully.');
             setError(null);
+            setTimeout(() => { window.location.href='/' }, 200);
         })
         .catch(() => {
             setSuccess(null);
