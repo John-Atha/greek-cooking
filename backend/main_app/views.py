@@ -109,6 +109,10 @@ class Recipes(APIView):
     permission_classes = [permissions.AllowAny]
 
     def get(self, request):
+        briefly = request.GET.get('briefly')
+        if briefly=='true':
+            recipes = [RecipeBriefSerializer(recipe).data for recipe in Recipe.objects.all()]
+            return Response(recipes, status.HTTP_200_OK)
         start = request.GET.get('start')
         end = request.GET.get('end')
         recipes = [RecipeSerializer(recipe).data for recipe in Recipe.objects.all()]
@@ -174,6 +178,10 @@ class UserRecipes(APIView):
     def get(self, request, id):
         try:
             user = User.objects.get(id=id)
+            briefly = request.GET.get('briefly')
+            if briefly=='true':
+                recipes = [RecipeBriefSerializer(recipe).data for recipe in user.recipes.all()]
+                return Response(recipes, status.HTTP_200_OK)
             start = request.GET.get('start')
             end = request.GET.get('end')
             recipes = [RecipeSerializer(recipe).data for recipe in user.recipes.all()]
@@ -190,6 +198,10 @@ class UserFavourites(APIView):
     def get(self, request, id):
         try:
             user = User.objects.get(id=id)
+            briefly = request.GET.get('briefly')
+            if briefly=='true':
+                recipes = [RecipeBriefSerializer(recipe).data for recipe in user.favourites.all()]
+                return Response(recipes, status.HTTP_200_OK)
             start = request.GET.get('start')
             end = request.GET.get('end')
             recipes = [RecipeSerializer(recipe).data for recipe in user.favourites.all()]
@@ -209,7 +221,7 @@ class UserFavourites(APIView):
                     try:
                         recipe = Recipe.objects.get(id=recipe_id)
                         user.favourites.add(recipe)
-                        return Response([UserSerializer(user).data for user in recipe.fans.all()])
+                        return Response(RecipeSerializer(recipe).data)
                     except Recipe.DoesNotExist:
                         return Response(f"Recipe '{recipe_id}' not found", status.HTTP_400_BAD_REQUEST)
                 return Response("No recipe id given", status.HTTP_400_BAD_REQUEST)
@@ -221,12 +233,13 @@ class UserFavourites(APIView):
         try:
             user = User.objects.get(id=id)
             if request.user == user:
-                recipe_id = request.GET.get('recipe_id')
+                recipe_id = json.loads(request.body).get('recipe_id')
                 if recipe_id:
                     try:
                         recipe = Recipe.objects.get(id=recipe_id)
                         user.favourites.remove(recipe)
-                        return Response([UserSerializer(user).data for user in recipe.fans.all()])
+                        user.save()
+                        return Response(RecipeSerializer(recipe).data)
                     except Recipe.DoesNotExist:
                         return Response(f"Recipe '{recipe_id}' not found", status.HTTP_400_BAD_REQUEST)
                 return Response("No recipe id given", status.HTTP_400_BAD_REQUEST)
