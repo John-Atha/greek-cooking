@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { isLogged, getAllRecipes, getOneRecipe } from '../api/api';
+import { isLogged, getOneRecipe } from '../api/api';
 import { useCookies } from 'react-cookie';
 import { ScrollablePage } from './styles';
 import Recipe from '../Components/Recipe/Recipe';
@@ -11,7 +11,7 @@ function OneRecipe(props) {
     const [userId, setUserId] = useState(null);
     const [username, setUsername] = useState(null);
     const [recipe, setRecipe] = useState(null);
-    const [cookies, setCookie] = useCookies(['token']);
+    const cookies = useCookies(['token'])[0];
     const [noData, setNoData] = useState(false);
 
     const checkLogged = () => {
@@ -39,6 +39,7 @@ function OneRecipe(props) {
     useEffect(() => {
         checkLogged();
         getRecipe();
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
 
     return (

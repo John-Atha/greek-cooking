@@ -8,7 +8,7 @@ import UploadBox from '../Components/Upload/UploadBox';
 function UploadPage() {
     const [userId, setUserId] = useState(null);
     const [username, setUsername] = useState(null);
-    const [cookies, setCookie] = useCookies(['token']);
+    const cookies = useCookies(['token'])[0];
 
     useEffect(() => {
         isLogged(cookies.token)
@@ -19,6 +19,7 @@ function UploadPage() {
         .catch(() => {
             window.location.href = '/';
         })
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
 
     return (

@@ -14,7 +14,7 @@ function Register() {
     const [email, setEmail] = useState('');
     const [error, setError] = useState(null);
     const [success, setSuccess] = useState(null);
-    const [cookies, setCookie] = useCookies(['token']);
+    const setCookie = useCookies(['token'])[1];
 
     const updateUsername = (event) => {
         setUsername(event.target.value);

@@ -6,8 +6,7 @@ import { createNotification } from '../../createNotification';
 function MyNavbar(props) {
 
     const [userId, setUserId] = useState(props.userId);
-    const [username, setUsername] = useState(props.username);
-    const [cookies, setCookie, removeCookie] = useCookies(['token']);
+    const removeCookie = useCookies(['token'])[2];
     const [showingModal, setShowingModal] = useState(false);
 
     useEffect(() => {

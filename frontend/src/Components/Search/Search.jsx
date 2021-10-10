@@ -8,7 +8,6 @@ import { Error } from '../LoginRegister/styles';
 function Search(props) {
 
     const [userId, setUserId] = useState(props.userId);
-    const [username, setUsername] = useState(props.username);
     const [recipes, setRecipes] = useState([]);
     const [noData, setNoData] = useState(false);
     const [suggestions, setSuggestions] = useState([]);
@@ -29,6 +28,8 @@ function Search(props) {
                 f = getUserRecipes;
                 id = props.id || userId;
                 break;
+            default:
+                ;
         }
         console.log(f);
         console.log(id);
@@ -47,12 +48,12 @@ function Search(props) {
 
     useEffect(() => {
         getRecipes();
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [userId])
 
     useEffect(() => {
         setUserId(props.userId);
-        setUsername(props.username);
-    }, [props.userId, props.username])
+    }, [props.userId])
 
     const updateText = (event) => {
         event.preventDefault();
@@ -74,7 +75,7 @@ function Search(props) {
                 value.title.toLowerCase().startsWith(text.toLowerCase())
             );
         }))
-
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [text])
     
     return (

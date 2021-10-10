@@ -1,19 +1,23 @@
 import React, { useState, useEffect } from 'react';
 import Search from '../Components/Search/Search';
 import { ScrollablePage, ProfileInfo } from './styles';
+import { Error } from '../Components/LoginRegister/styles';
 import MyNavbar from '../Components/Navbar/MyNavbar';
 import { isLogged, getOneUser } from '../api/api';
 import { useCookies } from 'react-cookie';
+import { Spinner } from 'react-bootstrap';
+
 
 function Profile(props) {
 
     const [userId, setUserId] = useState(null);
     const [username, setUsername] = useState(null);
-    const [cookies, setCookie] = useCookies(['token']);
-    const [id, setId] = useState(parseInt(props.id));
+    const cookies = useCookies(['token'])[0];
     const [user, setUser] = useState(null);
     const [error, setError] = useState(null);
     const [recipesNum, setRecipesNum] = useState(0);
+
+    const id = parseInt(props.id);
 
     const checkLogged = () => {
         isLogged(cookies.token)
@@ -39,6 +43,7 @@ function Profile(props) {
     useEffect(() => {
         checkLogged();
         getUser();
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
 
     return (
@@ -51,7 +56,18 @@ function Profile(props) {
                 </ProfileInfo>
             }
             <h4>{user ? `Recipes (${recipesNum})` : ''}</h4>
-            <Search userId={userId} id={id} username={username} case='My' setRecipesNum={setRecipesNum} />
+            
+            {user &&
+                <Search userId={userId} id={id} username={username} case='My' setRecipesNum={setRecipesNum} />
+            }
+            {!user && !error &&
+                <div style={{'text-align': 'center', 'margin': '20px'}}>
+                    <Spinner animation="border" role="status" variant='primary' />
+                </div>
+            }
+            {!user && error &&
+                <Error>Sorry, we could not find this user.</Error>
+            }
         </ScrollablePage>
     )
 

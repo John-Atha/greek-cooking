@@ -12,7 +12,7 @@ function Recipe(props) {
     const [recipe, setRecipe] = useState(props.recipe);
     const [userId, setUserId] = useState(props.userId);
     const [liked, setLiked] = useState(false);
-    const [cookies, setCookie] = useCookies(['token']);
+    const cookies = useCookies(['token'])[0];
 
     useEffect(() => { 
         setRecipe(props.recipe);
@@ -32,6 +32,7 @@ function Recipe(props) {
             })
             setLiked(liked_temp);
         }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [recipe, userId])
 
     const updLiked = () => {

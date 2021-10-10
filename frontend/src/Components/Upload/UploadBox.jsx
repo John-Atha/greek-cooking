@@ -7,7 +7,6 @@ import { Editor } from "react-draft-wysiwyg";
 import { EditorState } from "draft-js";
 import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
 
-import text_icon from 'bootstrap-icons/icons/file-earmark-text.svg';
 import title_icon from 'bootstrap-icons/icons/fonts.svg';
 
 function UploadBox(props) {

@@ -11,7 +11,7 @@ function Home() {
     const [userId, setUserId] = useState(null);
     const [username, setUsername] = useState(null);
     const [recipes, setRecipes] = useState([]);
-    const [cookies, setCookie] = useCookies(['token']);
+    const cookies = useCookies(['token'])[0];
     const [noData, setNoData] = useState(false);
     const [start, setStart] = useState(1);
 
@@ -40,10 +40,12 @@ function Home() {
 
     useEffect(() => {
         checkLogged();
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
 
     useEffect(() => {
         getRecipes();
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [start])
 
     return (

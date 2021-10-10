@@ -9,7 +9,7 @@ function SearchPage(props) {
 
     const [userId, setUserId] = useState(null);
     const [username, setUsername] = useState(null);
-    const [cookies, setCookie] = useCookies(['token']);
+    const cookies = useCookies(['token'])[0];
 
 
     const checkLogged = () => {
@@ -25,6 +25,7 @@ function SearchPage(props) {
 
     useEffect(() => {
         checkLogged();
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
 
     return (
