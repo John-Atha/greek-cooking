@@ -14,6 +14,7 @@ import Home from './Pages/Home';
 import SearchPage from './Pages/SearchPage';
 import Profile from './Pages/Profile';
 import OneRecipe from './Pages/OneRecipe';
+import UploadPage from './Pages/UploadPage';
 
 const FindProfile = () => {
   const { id } = useParams();
@@ -51,6 +52,9 @@ ReactDOM.render(
           </Route>
           <Route path='/recipes/:id'>
             <FindRecipe />
+          </Route>
+          <Route path='/upload'>
+            <UploadPage />
           </Route>
           <Route path='/' exact>
             <Home />
