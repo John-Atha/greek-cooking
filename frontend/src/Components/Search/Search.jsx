@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { getAllBriefRecipes, getAllRecipes, getFavRecipes, getUserRecipes } from '../../api/api';
+import { getAllRecipes, getFavRecipes, getUserRecipes } from '../../api/api';
 import Recipe from '../Recipe/Recipe';
 import { Form, Button, InputGroup } from 'react-bootstrap';
 import search_icon from 'bootstrap-icons/icons/search.svg';

@@ -42,37 +42,43 @@ function MyNavbar(props) {
             <Navbar.Toggle aria-controls="basic-navbar-nav" />
             <Navbar.Collapse id="basic-navbar-nav">
             <Nav className="me-auto" style={{'fontSize': '1.1rem', 'margin': window.innerWidth<=600 ? 'auto': '0px'}}>
+                {window.innerWidth<=600 &&
+                    <Nav.Link href="/">
+                        <img src={home_icon} alt='Home' style={{'marginRight': window.innerWidth<=600 ? '0px' : '2px', 'width': window.innerWidth<=600 ? '8vw' : 'auto' }} />
+                    </Nav.Link>
+                }
                 <Nav.Link href="/search">
-                    <img src={search_icon} style={{'marginRight': window.innerWidth<=600 ? '0px' : '2px', 'width': window.innerWidth<=600 ? '8vw' : 'auto' }} />
+                    <img src={search_icon} alt={window.innerWidth>600 ? '' : 'Search'} style={{'marginRight': window.innerWidth<=600 ? '0px' : '2px', 'width': window.innerWidth<=600 ? '8vw' : 'auto' }} />
                     {window.innerWidth>600 &&
                         'Search'                
                     }
                 </Nav.Link>
 
                 <Nav.Link onClick={()=>navigate('favourites')}>
-                    <img src={heart_icon} style={{'marginRight': window.innerWidth<=600 ? '0px' : '2px', 'width': window.innerWidth<=600 ? '8vw' : 'auto' }} />
+                    <img src={heart_icon} alt={window.innerWidth>600 ? '' : 'Favourites'} style={{'marginRight': window.innerWidth<=600 ? '0px' : '2px', 'width': window.innerWidth<=600 ? '8vw' : 'auto' }} />
                     {window.innerWidth>600 &&
                         'My Favourites'                
                     }
                 </Nav.Link>
                 {window.innerWidth>600 &&
                     <Nav.Link onClick={()=>navigate('my')}>
-                        <img src={food_icon} style={{'marginRight': window.innerWidth<=600 ? '0px' : '2px', 'width': window.innerWidth<=600 ? '8vw' : 'auto' }} />
+                        <img src={food_icon} alt={window.innerWidth>600 ? '' : 'My recipes'} style={{'marginRight': window.innerWidth<=600 ? '0px' : '2px', 'width': window.innerWidth<=600 ? '8vw' : 'auto' }} />
                             My recipes                
                     </Nav.Link>
                 }
-                <Nav.Link onClick={()=>navigate('profile')}>
-                    <img src={person_icon} style={{'marginRight': window.innerWidth<=600 ? '0px' : '2px', 'width': window.innerWidth<=600 ? '8vw' : 'auto' }} />
-                    {window.innerWidth>600 &&
-                        'My profile'                
-                    }
-                </Nav.Link>
                 <Nav.Link onClick={()=>navigate('upload')}>
-                    <img src={upload_icon} style={{'marginRight': window.innerWidth<=600 ? '0px' : '2px', 'width': window.innerWidth<=600 ? '8vw' : 'auto' }} />
+                    <img src={upload_icon} alt={window.innerWidth>600 ? '' : 'Upload'} style={{'marginRight': window.innerWidth<=600 ? '0px' : '2px', 'width': window.innerWidth<=600 ? '8vw' : 'auto' }} />
                     {window.innerWidth>600 &&
                         'Upload'                
                     }
                 </Nav.Link>
+                <Nav.Link onClick={()=>navigate('profile')}>
+                    <img src={person_icon} alt={window.innerWidth>600 ? '' : 'Profile'} style={{'marginRight': window.innerWidth<=600 ? '0px' : '2px', 'width': window.innerWidth<=600 ? '8vw' : 'auto' }} />
+                    {window.innerWidth>600 &&
+                        'My profile'                
+                    }
+                </Nav.Link>
+
             </Nav>
             {window.innerWidth>600 && 
                 <Nav>
