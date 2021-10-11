@@ -61,7 +61,7 @@ function Home() {
                 })}
             </div>
             {!recipes.length && !noData &&
-                <div style={{'text-align': 'center', 'margin': '20px'}}>
+                <div style={{'textAlign': 'center', 'margin': '20px'}}>
                     <Spinner animation="border" role="status" variant='primary' />
                 </div>
             }

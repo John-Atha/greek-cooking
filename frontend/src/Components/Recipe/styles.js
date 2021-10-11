@@ -28,6 +28,8 @@ export const TitleHref = styled.a`
 
 export const Description = styled.div`
     font-size: 0.9rem;
+    text-align: left;
+    width: 100%;
 `
 
 export const Header = styled.div`

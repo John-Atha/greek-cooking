@@ -7,6 +7,7 @@ import { Button } from 'react-bootstrap';
 import { like, unlike } from '../../api/api';
 import { useCookies } from 'react-cookie';
 import { createNotification } from '../../createNotification';
+import ReactHtmlParser from 'react-html-parser';
 
 function Recipe(props) {
     const [recipe, setRecipe] = useState(props.recipe);
@@ -102,7 +103,7 @@ function Recipe(props) {
                 <Description>{`${recipe.description.slice(0, 200)} ...`}</Description>
             }
             {props.page &&
-                <Description>{recipe.description}</Description>
+                <Description>{ ReactHtmlParser(recipe.description) }</Description>
             }
             <Break />
             {!props.page &&
