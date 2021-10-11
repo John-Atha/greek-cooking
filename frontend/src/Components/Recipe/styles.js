@@ -4,6 +4,7 @@ import { flex_wrap, with_whitespace } from '../../generalStyles';
 export const Container = styled.div`
     border: 1px solid grey;
     padding: 5px;
+    padding-bottom: 50px;
     border-radius: 7px;
     margin: 10px auto;
     background-color: white;

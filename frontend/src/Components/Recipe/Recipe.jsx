@@ -68,15 +68,13 @@ function Recipe(props) {
     }
 
     const edit = () => {
-        if (!props.page) {
-            window.location.href=`/recipes/${recipe.id}`;
-        }
+        window.location.href=`/recipes/${recipe.id}/edit`;
     }
 
     return (
         <Container>
             <TitleHref href={`/recipes/${recipe.id}`}>{recipe.title}</TitleHref>
-            {userId === props.recipe.owner.id &&
+            {userId === props.recipe.owner.id && !props.edit &&
                 <EditButton onClick={edit}>
                     <EditImg src={edit_icon} alt='edit' />
                     <div>Edit</div>
@@ -96,18 +94,18 @@ function Recipe(props) {
             <Break />
             <hr style={{'margin': '4px', 'width': '100%'}} />
             <Break />
-            {props.brief && !props.page &&
-                <Description>{recipe.description}</Description>
-            }
-            {!props.brief && !props.page &&
-                <Description>{`${recipe.description.slice(0, 200)} ...`}</Description>
+            {!props.page &&
+                <Description>
+                    { ReactHtmlParser(recipe.description.slice(0, 100)) }
+                    <i>and more details...</i>
+                </Description>
             }
             {props.page &&
                 <Description>{ ReactHtmlParser(recipe.description) }</Description>
             }
             <Break />
             {!props.page &&
-                <Button variant='success' style={{'marginTop': '10px'}} onClick={()=>window.location.href=`/recipes/${recipe.id}`}>See details</Button>        
+                <Button variant='success' style={{'marginTop': '10px', 'position': 'absolute', 'right': '5px', 'bottom': '5px'}} onClick={()=>window.location.href=`/recipes/${recipe.id}`}>See details</Button>        
             }
         </Container>
     )

@@ -52,7 +52,8 @@ function Home() {
         <ScrollablePage>
             <MyNavbar userId={userId} username={username} />
             <div style={{'marginTop': '70px'}} />
-            <h2>Latest recipes</h2>
+            <h2>Welcome {username}, feeling hungry?</h2>
+            <h3>Check out our latest recipes</h3>
             <div>
                 {recipes.map(value => {
                     return (

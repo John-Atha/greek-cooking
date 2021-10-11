@@ -9,7 +9,6 @@ function Search(props) {
 
     const [userId, setUserId] = useState(props.userId);
     const [recipes, setRecipes] = useState([]);
-    const [noData, setNoData] = useState(false);
     const [suggestions, setSuggestions] = useState([]);
     const [text, setText] = useState('');
 
@@ -42,7 +41,7 @@ function Search(props) {
             }
         })
         .catch(() => {
-            setNoData(true);
+            ;
         })
     }
 
