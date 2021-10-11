@@ -3,6 +3,7 @@ import { isLogged } from '../api/api';
 import { useCookies } from 'react-cookie';
 import { ScrollablePage } from './styles';
 import MyNavbar from '../Components/Navbar/MyNavbar';
+import MobileTopBrand from '../Components/Navbar/MobileTopBrand';
 import UploadBox from '../Components/Upload/UploadBox';
 
 function UploadPage() {
@@ -23,7 +24,8 @@ function UploadPage() {
     }, [])
 
     return (
-        <ScrollablePage>
+        <ScrollablePage mobile={window.innerWidth<=600}>
+            <MobileTopBrand userId={userId} username={username} />
             <MyNavbar userId={userId} username={username} />
             <div style={{'marginTop': '70px'}} />
             {username &&

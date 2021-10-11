@@ -11,7 +11,6 @@ export const Container = styled.div`
     ${with_whitespace}
     ${flex_wrap}
     width: 800px;
-    marign: auto;
     max-width: 100vw;
 `
 export const TitleHref = styled.a`

@@ -4,6 +4,7 @@ import { useCookies } from 'react-cookie';
 import { ScrollablePage } from './styles';
 import Recipe from '../Components/Recipe/Recipe';
 import MyNavbar from '../Components/Navbar/MyNavbar';
+import MobileTopBrand from '../Components/Navbar/MobileTopBrand';
 import { Button, Spinner } from 'react-bootstrap';
 import { Error } from '../Components/LoginRegister/styles';
 
@@ -49,7 +50,8 @@ function Home() {
     }, [start])
 
     return (
-        <ScrollablePage>
+        <ScrollablePage mobile={window.innerWidth<=600}>
+            <MobileTopBrand userId={userId} username={username} />
             <MyNavbar userId={userId} username={username} />
             <div style={{'marginTop': '70px'}} />
             <h2>Welcome {username}, feeling hungry?</h2>

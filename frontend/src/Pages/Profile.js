@@ -3,6 +3,7 @@ import Search from '../Components/Search/Search';
 import { ScrollablePage, ProfileInfo } from './styles';
 import { Error } from '../Components/LoginRegister/styles';
 import MyNavbar from '../Components/Navbar/MyNavbar';
+import MobileTopBrand from '../Components/Navbar/MobileTopBrand';
 import { isLogged, getOneUser } from '../api/api';
 import { useCookies } from 'react-cookie';
 import { Spinner } from 'react-bootstrap';
@@ -47,7 +48,8 @@ function Profile(props) {
     }, [])
 
     return (
-        <ScrollablePage>
+        <ScrollablePage mobile={window.innerWidth<=600}>
+            <MobileTopBrand userId={userId} username={username} />
             <MyNavbar userId={userId} username={username} />
             <div style={{'marginTop': '70px'}} />
             {user &&
