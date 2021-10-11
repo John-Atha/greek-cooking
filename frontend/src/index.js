@@ -15,15 +15,19 @@ import SearchPage from './Pages/SearchPage';
 import Profile from './Pages/Profile';
 import OneRecipe from './Pages/OneRecipe';
 import UploadPage from './Pages/UploadPage';
+import EditPage from './Pages/EditPage';
 
 const FindProfile = () => {
   const { id } = useParams();
   return <Profile id={id} />;
 }
 
-const FindRecipe = () => {
+const FindRecipe = (props) => {
   const { id } = useParams();
-  return <OneRecipe id={id} />;
+  if (!props.edit) {
+    return <OneRecipe id={id} />;
+  }
+  return <EditPage id={id} />;
 }
 
 ReactDOM.render(
@@ -47,13 +51,16 @@ ReactDOM.render(
           <Route path='/my' exact>
             <SearchPage case='My' />
           </Route>
-          <Route path='/users/:id'>
+          <Route path='/users/:id' exact>
             <FindProfile />
           </Route>
-          <Route path='/recipes/:id'>
+          <Route path='/recipes/:id' exact>
             <FindRecipe />
           </Route>
-          <Route path='/upload'>
+          <Route path='/recipes/:id/edit' exact>
+            <FindRecipe edit={true} />
+          </Route>
+          <Route path='/upload' exact>
             <UploadPage />
           </Route>
           <Route path='/' exact>

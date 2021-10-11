@@ -95,13 +95,14 @@ export const getOneRecipe = (id) => {
     return axios.get(requestUrl);
 }
 
-export const upload = (token, title, text, image) => {
+export const upload = (token, title, text, image, id, editting=false) => {
     const requestUrl = `/recipes`;
     const headers = buildAuthHeader(token);
     headers["Content-Type"] = "multipart/form-data";
     const bodyFormData = new FormData();
     bodyFormData.append('title', title);
     bodyFormData.append('description', text);
-    bodyFormData.append('image', image);
+    if (image) bodyFormData.append('image', image);
+    if (editting) return axios.put(`${requestUrl}/${id}`, bodyFormData, { headers });
     return axios.post(requestUrl, bodyFormData, { headers });
 }

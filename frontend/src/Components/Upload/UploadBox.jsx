@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { upload } from '../../api/api';
-import { Container } from '../Recipe/styles';
+import { Container, RecipeImg } from '../Recipe/styles';
 import { TextContainer, LabelPill, MyInput, InputContainer } from './styles';
 import { Form, Button, InputGroup, Spinner } from 'react-bootstrap';
 import { Editor } from "react-draft-wysiwyg";
-import { EditorState, convertToRaw } from "draft-js";
+import { EditorState, convertToRaw, ContentState } from "draft-js";
+import htmlToDraft from 'html-to-draftjs';
 import { useCookies } from 'react-cookie';
 import draftToHtml from 'draftjs-to-html';
 import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
@@ -12,25 +13,37 @@ import title_icon from 'bootstrap-icons/icons/fonts.svg';
 import { createNotification } from '../../createNotification';
 
 function UploadBox(props) {
-    const [userId, setUserId] = useState(props.id);
-    const [title, setTitle] = useState('');
+    const [title, setTitle] = useState(props.edit ? props.recipe.title : '');
     const [editorState, setEditorState] = useState(() =>
         EditorState.createEmpty()
     );
     const cookies = useCookies(['token'])[0];
     const [uploading, setUploading] = useState(false);
+    const [hasUploadedImg, setHasUploadedImg] = useState(false);
     
     useEffect(() => {
-        setUserId(props.userId);
-    }, [props.userId])
+        if (props.edit) {
+            const blocksFromHtml = htmlToDraft(props.recipe.description);
+            const { contentBlocks, entityMap } = blocksFromHtml;
+            const contentState = ContentState.createFromBlockArray(contentBlocks, entityMap);
+            setEditorState(EditorState.createWithContent(contentState));
+        }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [props.recipe])
 
-    useEffect(() => { 
-        console.log(draftToHtml(convertToRaw(editorState.getCurrentContent())));
-    }, [editorState])
+    const updImg = () => {
+        const binaryData = [];
+        binaryData.push(document.getElementById('new-photo').files[0]);
+        setHasUploadedImg(window.URL.createObjectURL(new Blob(binaryData, {type: "file"})));
+    }
 
     const updateTitle = (event) => {
         setTitle(event.target.value);
     }
+
+    useEffect(() => {
+        console.log(draftToHtml(convertToRaw(editorState.getCurrentContent())).toString());
+    }, [editorState])
 
     const submit = (event) => {
         event.preventDefault();
@@ -38,27 +51,24 @@ function UploadBox(props) {
             createNotification('danger', 'Sorry', 'Title cannot be empty.');
             return;
         }
-        if (draftToHtml(convertToRaw(editorState.getCurrentContent()))==='<p></p>') {
-            createNotification('danger', 'Sorry', 'Text cannot be empty.');
-            return;
-        }
-        console.log('Submission with:');
-        console.log('Title:', title);
-        console.log('Text:', draftToHtml(convertToRaw(editorState.getCurrentContent())));
         const input = document.getElementById('new-photo');
         let img = null;
         if (input.files.length) {
             img = input.files[0];
         }
         setUploading(true);
-        upload(cookies.token, title, draftToHtml(convertToRaw(editorState.getCurrentContent())), img)
+        upload(cookies.token, title, draftToHtml(convertToRaw(editorState.getCurrentContent())), img, props.recipe ? props.recipe.id : null, props.edit===true)
         .then(response => {
-            setUploading(false);
-            createNotification('success', 'Thanks!!', 'Recipe was uploaded successfully.');
-            setTimeout(()=>window.location.href=`/recipes/${response.data.id}`, 500);
+            if (props.edit) createNotification('success', 'Thanks!!', 'Recipe was edited successfully.');
+            else createNotification('success', 'Thanks!!', 'Recipe was uploaded successfully.');
+            setTimeout(()=>{
+                window.location.href=`/recipes/${response.data.id}`;
+            }, 500);
         })
         .catch(() => {
-            createNotification('danger', 'Sorry', 'We could not upload your recipe.');
+           if (props.edit) createNotification('danger', 'Sorry', 'We could not edit your recipe.');
+           else createNotification('danger', 'Sorry', 'We could not upload your recipe.');
+           setUploading(false);
         })
     }
 
@@ -77,8 +87,21 @@ function UploadBox(props) {
                         <LabelPill>
                             Upload an image
                         </LabelPill>
-                        <MyInput id="new-photo" type="file" accept="image/*, video/*"/>
+                        <MyInput id="new-photo" type="file" accept="image/*, video/*" onChange={updImg} />
                     </InputContainer>
+
+                    {props.edit && !hasUploadedImg && props.recipe.image &&
+                        <div>
+                            <h5>Previous image</h5>
+                            <RecipeImg src={`http://127.0.0.1:8000${props.recipe.image}`} />
+                        </div>
+                    }
+                    {props.edit && hasUploadedImg &&
+                        <div>
+                            <h5>Current image</h5>
+                            <RecipeImg src={hasUploadedImg} />
+                        </div>
+                    }
 
                     <LabelPill noBorder={true}>And add some text (ingredients, steps, secret tips...)</LabelPill>
                     <TextContainer>
@@ -94,7 +117,7 @@ function UploadBox(props) {
                 </Form>            
             }
             {uploading &&
-                <div style={{'textAlign': 'center', 'margin': '20px'}}>
+                <div style={{'textAlign': 'center', 'margin': '20px auto'}}>
                     <Spinner animation="border" role="status" variant='primary' />
                 </div>
             }
