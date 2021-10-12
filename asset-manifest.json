@@ -1,8 +1,8 @@
 {
   "files": {
     "main.css": "/greek-cooking/static/css/main.29cab2dd.chunk.css",
-    "main.js": "/greek-cooking/static/js/main.9beb046c.chunk.js",
-    "main.js.map": "/greek-cooking/static/js/main.9beb046c.chunk.js.map",
+    "main.js": "/greek-cooking/static/js/main.9ed4a2d0.chunk.js",
+    "main.js.map": "/greek-cooking/static/js/main.9ed4a2d0.chunk.js.map",
     "runtime-main.js": "/greek-cooking/static/js/runtime-main.5075515f.js",
     "runtime-main.js.map": "/greek-cooking/static/js/runtime-main.5075515f.js.map",
     "static/css/2.92369c81.chunk.css": "/greek-cooking/static/css/2.92369c81.chunk.css",
@@ -31,6 +31,6 @@
     "static/css/2.92369c81.chunk.css",
     "static/js/2.8dce86a2.chunk.js",
     "static/css/main.29cab2dd.chunk.css",
-    "static/js/main.9beb046c.chunk.js"
+    "static/js/main.9ed4a2d0.chunk.js"
   ]
 }
