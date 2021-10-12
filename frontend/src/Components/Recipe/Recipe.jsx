@@ -90,7 +90,7 @@ function Recipe(props) {
             <Header>From <a href={`/users/${recipe.owner.id}`}>{recipe.owner.username}</a>, on {recipe.uploaded_at.slice(0, 10)}</Header>
             <Break />
             {recipe.image && !props.brief &&
-                <RecipeImg src={`http://127.0.0.1:8000${recipe.image}`} alt={recipe.title}/>        
+                <RecipeImg src={recipe.image} alt={recipe.title}/>        
             }
             <Break />
             <hr style={{'margin': '4px', 'width': '100%'}} />
