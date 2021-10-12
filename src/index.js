@@ -30,33 +30,33 @@ ReactDOM.render(
   <React.StrictMode>
     <ReactNotifications />
     <CookiesProvider>
-      <HashRouter basename={'/'}>
+      <HashRouter basename={'/greek-cooking'}>
         <Switch>
-          <Route path='/login' exact>
+          <Route path='/greek-cooking/login' exact>
             <LoginRegister login={true} />
           </Route>
-          <Route path='/register' exact>
+          <Route path='/greek-cooking/register' exact>
             <LoginRegister register={true} />
           </Route>
-          <Route path='/search' exact>
+          <Route path='/greek-cooking/search' exact>
             <SearchPage case='All' />
           </Route>
-          <Route path='/favourites' exact>
+          <Route path='/greek-cooking/favourites' exact>
             <SearchPage case='Favourite' />
           </Route>
-          <Route path='/my' exact>
+          <Route path='/greek-cooking/my' exact>
             <SearchPage case='My' />
           </Route>
-          <Route path='/users/:id'>
+          <Route path='/greek-cooking/users/:id'>
             <FindProfile />
           </Route>
-          <Route path='/recipes/:id'>
+          <Route path='/greek-cooking/recipes/:id'>
             <FindRecipe />
           </Route>
-          <Route path='/upload'>
+          <Route path='/greek-cooking/upload'>
             <UploadPage />
           </Route>
-          <Route path='/' exact>
+          <Route path='/greek-cooking' exact>
             <Home />
           </Route>
         </Switch>
