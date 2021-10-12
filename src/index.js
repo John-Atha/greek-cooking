@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { BrowserRouter, Switch, Route, useParams } from 'react-router-dom';
+import { BrowserRouter, HashRouter, Switch, Route, useParams } from 'react-router-dom';
 import ReactNotifications from "react-notifications-component";
 import { CookiesProvider } from 'react-cookie';
 
@@ -30,7 +30,7 @@ ReactDOM.render(
   <React.StrictMode>
     <ReactNotifications />
     <CookiesProvider>
-      <BrowserRouter basename={'/greek-cooking'}>
+      <HashRouter basename={'/'}>
         <Switch>
           <Route path='/login' exact>
             <LoginRegister login={true} />
@@ -60,7 +60,7 @@ ReactDOM.render(
             <Home />
           </Route>
         </Switch>
-      </BrowserRouter>
+      </HashRouter>
     </CookiesProvider>
   </React.StrictMode>,
   document.getElementById('root')
