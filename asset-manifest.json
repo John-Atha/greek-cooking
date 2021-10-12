@@ -1,0 +1,32 @@
+{
+  "files": {
+    "main.css": "/greek-cooking/static/css/main.29cab2dd.chunk.css",
+    "main.js": "/greek-cooking/static/js/main.7c6ab92e.chunk.js",
+    "main.js.map": "/greek-cooking/static/js/main.7c6ab92e.chunk.js.map",
+    "runtime-main.js": "/greek-cooking/static/js/runtime-main.5075515f.js",
+    "runtime-main.js.map": "/greek-cooking/static/js/runtime-main.5075515f.js.map",
+    "static/css/2.86092b00.chunk.css": "/greek-cooking/static/css/2.86092b00.chunk.css",
+    "static/js/2.0fd7e24b.chunk.js": "/greek-cooking/static/js/2.0fd7e24b.chunk.js",
+    "static/js/2.0fd7e24b.chunk.js.map": "/greek-cooking/static/js/2.0fd7e24b.chunk.js.map",
+    "index.html": "/greek-cooking/index.html",
+    "static/css/2.86092b00.chunk.css.map": "/greek-cooking/static/css/2.86092b00.chunk.css.map",
+    "static/css/main.29cab2dd.chunk.css.map": "/greek-cooking/static/css/main.29cab2dd.chunk.css.map",
+    "static/js/2.0fd7e24b.chunk.js.LICENSE.txt": "/greek-cooking/static/js/2.0fd7e24b.chunk.js.LICENSE.txt",
+    "static/media/bootstrap-icons.css": "/greek-cooking/static/media/bootstrap-icons.dfd0ea12.woff2",
+    "static/media/envelope.svg": "/greek-cooking/static/media/envelope.97969ee9.svg",
+    "static/media/fonts.svg": "/greek-cooking/static/media/fonts.cba6fb6f.svg",
+    "static/media/heart-fill.svg": "/greek-cooking/static/media/heart-fill.e3f0a020.svg",
+    "static/media/heart.svg": "/greek-cooking/static/media/heart.27cf625b.svg",
+    "static/media/lock.svg": "/greek-cooking/static/media/lock.9c682a8c.svg",
+    "static/media/pen.svg": "/greek-cooking/static/media/pen.561e0302.svg",
+    "static/media/person.svg": "/greek-cooking/static/media/person.1694d0ed.svg",
+    "static/media/search.svg": "/greek-cooking/static/media/search.b1f781b9.svg"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.5075515f.js",
+    "static/css/2.86092b00.chunk.css",
+    "static/js/2.0fd7e24b.chunk.js",
+    "static/css/main.29cab2dd.chunk.css",
+    "static/js/main.7c6ab92e.chunk.js"
+  ]
+}
