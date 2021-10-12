@@ -94,7 +94,7 @@ function UploadBox(props) {
                     {props.edit && !hasUploadedImg && props.recipe.image &&
                         <div>
                             <h5>Previous image</h5>
-                            <RecipeImg src={`http://127.0.0.1:8000${props.recipe.image}`} />
+                            <RecipeImg src={props.recipe.image} />
                         </div>
                     }
                     {props.edit && hasUploadedImg &&
