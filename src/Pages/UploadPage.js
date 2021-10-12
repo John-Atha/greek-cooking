@@ -19,7 +19,7 @@ function UploadPage() {
             setUsername(response.data.username);
         })
         .catch(() => {
-            window.location.href = base;
+            window.location.href = `${base}/`;
         })
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])

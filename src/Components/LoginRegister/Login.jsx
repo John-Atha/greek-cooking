@@ -29,7 +29,7 @@ function Login() {
             setCookie('token', response.data.access, { path: '/' });
             setSuccess('Logged in successfully.');
             setError(null);
-            setTimeout(() => { window.location.href=base }, 200);
+            setTimeout(() => { window.location.href=`${base}/` }, 200);
         })
         .catch(() => {
             setSuccess(null);

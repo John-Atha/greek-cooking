@@ -70,7 +70,7 @@ function Register() {
                 setCookie('token', response.data.access, { path: '/' });
                 setSuccess('Logged in successfully.');
                 setError(null); 
-                setTimeout(() => { window.location.href=base }, 200);
+                setTimeout(() => { window.location.href=`${base}/` }, 200);
             })
             .catch(() => {
                 setError('But we could not get you inside.\nPlease try logging in.')

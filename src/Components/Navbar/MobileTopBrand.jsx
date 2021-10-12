@@ -20,7 +20,7 @@ function MobileTopBrand(props) {
 
     return (
         <Navbar bg="success" fixed='top'>
-            <Navbar.Brand href={base}>Greek Cooking</Navbar.Brand>
+            <Navbar.Brand href={`${base}/`}>Greek Cooking</Navbar.Brand>
 
             <Navbar.Toggle aria-controls="basic-navbar-nav" />
             <Navbar.Collapse id="basic-navbar-nav">

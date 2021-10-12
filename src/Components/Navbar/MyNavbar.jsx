@@ -38,13 +38,13 @@ function MyNavbar(props) {
     return (
         <Navbar bg="success" fixed={window.innerWidth>600 ? 'top' : 'bottom'}>
             {window.innerWidth>600 &&
-                <Navbar.Brand href={base}>Greek Cooking</Navbar.Brand>
+                <Navbar.Brand href={`${base}/`}>Greek Cooking</Navbar.Brand>
             }
             <Navbar.Toggle aria-controls="basic-navbar-nav" />
             <Navbar.Collapse id="basic-navbar-nav">
             <Nav className="me-auto" style={{'fontSize': '1.1rem', 'margin': window.innerWidth<=600 ? 'auto': '0px'}}>
                 {window.innerWidth<=600 &&
-                    <Nav.Link href={base}>
+                    <Nav.Link href={`${base}/`}>
                         <img src={home_icon} alt='Home' style={{'marginRight': window.innerWidth<=600 ? '0px' : '2px', 'width': window.innerWidth<=600 ? '8vw' : 'auto' }} />
                     </Nav.Link>
                 }

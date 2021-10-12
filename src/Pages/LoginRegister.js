@@ -12,7 +12,7 @@ function LoginRegister(props) {
     useEffect(() => {
         isLogged(cookies.token)
         .then(() => {
-            window.location.href=base;
+            window.location.href=`${base}/`;
         })
         .catch(() => {
             ;

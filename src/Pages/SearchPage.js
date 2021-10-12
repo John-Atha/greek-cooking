@@ -21,7 +21,7 @@ function SearchPage(props) {
             setUsername(response.data.username);
         })
         .catch(() => {
-            if (props.case==='Favourite' || props.case==='My') window.location.href=base;
+            if (props.case==='Favourite' || props.case==='My') window.location.href=`${base}/`;
         })
     }
 

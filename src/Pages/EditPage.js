@@ -6,6 +6,7 @@ import MyNavbar from '../Components/Navbar/MyNavbar';
 import MobileTopBrand from '../Components/Navbar/MobileTopBrand';
 import UploadBox from '../Components/Upload/UploadBox';
 import { Spinner } from 'react-bootstrap';
+import { base } from '../base';
 
 function EditPage(props) {
     const [userId, setUserId] = useState(null);
@@ -21,7 +22,7 @@ function EditPage(props) {
             setUsername(response.data.username);
         })
         .catch(() => {
-            window.location.href = '/';
+            window.location.href = `${base}/`;
         })
     }
 
@@ -29,13 +30,13 @@ function EditPage(props) {
         getOneRecipe(id)
         .then(response => {
             if (response.data.owner.id !== userId) {
-                window.location.href = '/';
+                window.location.href = `${base}/`;
                 return;
             }
             setRecipe(response.data);
         })
         .catch(() => {
-            window.location.href = '/';
+            window.location.href = `${base}/`;
             return;
         })
     }
