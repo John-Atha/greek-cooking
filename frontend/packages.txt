@@ -1,0 +1,16 @@
+Packages installed via npm:
+
+axios
+bootstrap
+bootstrap-icons
+draft-js
+draftjs-to-html
+html-to-draftjs
+react-bootstrap
+react-cookie
+react-draft-wysiwyg
+react-html-parser
+react-notifications-component
+react-router
+react-router-dom
+styled-components
