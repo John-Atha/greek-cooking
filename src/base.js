@@ -1,1 +1,1 @@
-export const base = '/greek-cooking/#';
+export const base = '/greek-cooking';
