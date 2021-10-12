@@ -30,7 +30,7 @@ ReactDOM.render(
   <React.StrictMode>
     <ReactNotifications />
     <CookiesProvider>
-      <BrowserRouter>
+      <BrowserRouter basename={'/greek-cooking'}>
         <Switch>
           <Route path='/login' exact>
             <LoginRegister login={true} />
