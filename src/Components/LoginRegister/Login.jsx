@@ -5,6 +5,7 @@ import { Form, Button, InputGroup } from 'react-bootstrap';
 import person_icon from 'bootstrap-icons/icons/person.svg';
 import lock_icon from 'bootstrap-icons/icons/lock.svg';
 import { useCookies } from 'react-cookie';
+import { base } from '../../base';
 
 function Login() {
     const [username, setUsername] = useState('');
@@ -28,7 +29,7 @@ function Login() {
             setCookie('token', response.data.access, { path: '/' });
             setSuccess('Logged in successfully.');
             setError(null);
-            setTimeout(() => { window.location.href='/' }, 200);
+            setTimeout(() => { window.location.href=base }, 200);
         })
         .catch(() => {
             setSuccess(null);
@@ -65,7 +66,7 @@ function Login() {
             </Form>
 
             <h6>First time here?</h6>
-            <a href='/register'>Create an account</a>
+            <a href={`${base}/register`}>Create an account</a>
         </Container>
     )
 }

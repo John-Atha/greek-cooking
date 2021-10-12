@@ -4,6 +4,7 @@ import Login from '../Components/LoginRegister/Login';
 import Register from '../Components/LoginRegister/Register';
 import { Page } from '../Components/LoginRegister/styles';
 import { useCookies } from 'react-cookie';
+import { base } from '../base';
 
 function LoginRegister(props) {
     const cookies = useCookies(['token'])[0];
@@ -11,7 +12,7 @@ function LoginRegister(props) {
     useEffect(() => {
         isLogged(cookies.token)
         .then(() => {
-            window.location.href='/'
+            window.location.href=base;
         })
         .catch(() => {
             ;

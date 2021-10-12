@@ -4,6 +4,7 @@ import { useCookies } from 'react-cookie';
 import { ScrollablePage } from './styles';
 import Recipe from '../Components/Recipe/Recipe';
 import MyNavbar from '../Components/Navbar/MyNavbar';
+import MobileTopBrand from '../Components/Navbar/MobileTopBrand';
 import { Button, Spinner } from 'react-bootstrap';
 import { Error } from '../Components/LoginRegister/styles';
 
@@ -49,10 +50,12 @@ function Home() {
     }, [start])
 
     return (
-        <ScrollablePage>
+        <ScrollablePage mobile={window.innerWidth<=600}>
+            <MobileTopBrand userId={userId} username={username} />
             <MyNavbar userId={userId} username={username} />
             <div style={{'marginTop': '70px'}} />
-            <h2>Latest recipes</h2>
+            <h2>Welcome {username}, feeling hungry?</h2>
+            <h3>Check out our latest recipes</h3>
             <div>
                 {recipes.map(value => {
                     return (
@@ -61,7 +64,7 @@ function Home() {
                 })}
             </div>
             {!recipes.length && !noData &&
-                <div style={{'text-align': 'center', 'margin': '20px'}}>
+                <div style={{'textAlign': 'center', 'margin': '20px'}}>
                     <Spinner animation="border" role="status" variant='primary' />
                 </div>
             }

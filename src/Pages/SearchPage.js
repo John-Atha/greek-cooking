@@ -2,8 +2,10 @@ import React, { useState, useEffect } from 'react';
 import Search from '../Components/Search/Search';
 import { ScrollablePage } from './styles';
 import MyNavbar from '../Components/Navbar/MyNavbar';
+import MobileTopBrand from '../Components/Navbar/MobileTopBrand';
 import { isLogged } from '../api/api';
 import { useCookies } from 'react-cookie';
+import { base } from '../base';
 
 function SearchPage(props) {
 
@@ -19,7 +21,7 @@ function SearchPage(props) {
             setUsername(response.data.username);
         })
         .catch(() => {
-            if (props.case==='Favourite' || props.case==='My') window.location.href='/';
+            if (props.case==='Favourite' || props.case==='My') window.location.href=base;
         })
     }
 
@@ -29,7 +31,8 @@ function SearchPage(props) {
     }, [])
 
     return (
-        <ScrollablePage>
+        <ScrollablePage mobile={window.innerWidth<=600}>
+            <MobileTopBrand userId={userId} username={username} />
             <MyNavbar userId={userId} username={username} />
             <div style={{'marginTop': '70px'}} />
             <h2>{props.case} recipes</h2>

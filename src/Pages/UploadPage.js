@@ -3,7 +3,9 @@ import { isLogged } from '../api/api';
 import { useCookies } from 'react-cookie';
 import { ScrollablePage } from './styles';
 import MyNavbar from '../Components/Navbar/MyNavbar';
+import MobileTopBrand from '../Components/Navbar/MobileTopBrand';
 import UploadBox from '../Components/Upload/UploadBox';
+import { base } from '../base';
 
 function UploadPage() {
     const [userId, setUserId] = useState(null);
@@ -17,13 +19,14 @@ function UploadPage() {
             setUsername(response.data.username);
         })
         .catch(() => {
-            window.location.href = '/';
+            window.location.href = base;
         })
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
 
     return (
-        <ScrollablePage>
+        <ScrollablePage mobile={window.innerWidth<=600}>
+            <MobileTopBrand userId={userId} username={username} />
             <MyNavbar userId={userId} username={username} />
             <div style={{'marginTop': '70px'}} />
             {username &&

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { getAllBriefRecipes, getFavRecipes, getUserRecipes } from '../../api/api';
+import { getAllRecipes, getFavRecipes, getUserRecipes } from '../../api/api';
 import Recipe from '../Recipe/Recipe';
 import { Form, Button, InputGroup } from 'react-bootstrap';
 import search_icon from 'bootstrap-icons/icons/search.svg';
@@ -9,7 +9,6 @@ function Search(props) {
 
     const [userId, setUserId] = useState(props.userId);
     const [recipes, setRecipes] = useState([]);
-    const [noData, setNoData] = useState(false);
     const [suggestions, setSuggestions] = useState([]);
     const [text, setText] = useState('');
 
@@ -18,7 +17,7 @@ function Search(props) {
         let id = null;
         switch (props.case) {
             case 'All':
-                f = getAllBriefRecipes;
+                f = getAllRecipes;
                 break;
             case 'Favourite':
                 f = getFavRecipes;
@@ -42,7 +41,7 @@ function Search(props) {
             }
         })
         .catch(() => {
-            setNoData(true);
+            ;
         })
     }
 
@@ -80,7 +79,7 @@ function Search(props) {
     
     return (
         <div style={{'text-align': 'center'}}>
-            <Form style={{'margin': '20px auto', 'display': 'flex', 'flexFlow': 'row wrap', 'width': '350px'}} onSubmit={submit}>
+            <Form style={{'margin': '10px auto', 'display': 'flex', 'flexFlow': 'row wrap', 'width': '350px'}} onSubmit={submit}>
                 <InputGroup className="mb-3" controlId="formBasicText" style={{'width': '250px'}}>
                     <InputGroup.Text>
                         <img src={search_icon} alt="search" />
@@ -92,10 +91,10 @@ function Search(props) {
                 </Button>
             </Form>
 
-            <div style={{'text-align': 'center'}}>
+            <div style={{'text-align': 'center', 'marginTop': '-1rem'}}>
                 {suggestions.map(value => {
                     return (
-                        <Recipe brief={props.case==='All'} recipe={value} key={value.id} userId={userId} />
+                        <Recipe brief={false} recipe={value} key={value.id} userId={userId} />
                     )
                 })}
                 {!suggestions.length &&

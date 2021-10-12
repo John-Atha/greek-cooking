@@ -4,13 +4,13 @@ import { flex_wrap, with_whitespace } from '../../generalStyles';
 export const Container = styled.div`
     border: 1px solid grey;
     padding: 5px;
+    padding-bottom: 50px;
     border-radius: 7px;
     margin: 10px auto;
     background-color: white;
     ${with_whitespace}
     ${flex_wrap}
     width: 800px;
-    marign: auto;
     max-width: 100vw;
 `
 export const TitleHref = styled.a`
@@ -28,6 +28,8 @@ export const TitleHref = styled.a`
 
 export const Description = styled.div`
     font-size: 0.9rem;
+    text-align: left;
+    width: 100%;
 `
 
 export const Header = styled.div`

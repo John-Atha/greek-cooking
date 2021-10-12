@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-axios.defaults.baseURL = 'https://greek-cooking-api.herokuapp.com/';
+axios.defaults.baseURL = 'http://127.0.0.1:8000/';
 
 const buildAuthHeader = (token) => {
     const headers = {
@@ -93,4 +93,16 @@ export const getOneUser = (id) => {
 export const getOneRecipe = (id) => {
     const requestUrl = `/recipes/${id}`;
     return axios.get(requestUrl);
+}
+
+export const upload = (token, title, text, image, id, editting=false) => {
+    const requestUrl = `/recipes`;
+    const headers = buildAuthHeader(token);
+    headers["Content-Type"] = "multipart/form-data";
+    const bodyFormData = new FormData();
+    bodyFormData.append('title', title);
+    bodyFormData.append('description', text);
+    if (image) bodyFormData.append('image', image);
+    if (editting) return axios.put(`${requestUrl}/${id}`, bodyFormData, { headers });
+    return axios.post(requestUrl, bodyFormData, { headers });
 }

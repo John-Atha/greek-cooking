@@ -7,6 +7,8 @@ import { Button } from 'react-bootstrap';
 import { like, unlike } from '../../api/api';
 import { useCookies } from 'react-cookie';
 import { createNotification } from '../../createNotification';
+import ReactHtmlParser from 'react-html-parser';
+import { base } from '../../base';
 
 function Recipe(props) {
     const [recipe, setRecipe] = useState(props.recipe);
@@ -67,15 +69,13 @@ function Recipe(props) {
     }
 
     const edit = () => {
-        if (!props.page) {
-            window.location.href=`/recipes/${recipe.id}`;
-        }
+        window.location.href=`${base}/recipes/${recipe.id}/edit`;
     }
 
     return (
         <Container>
-            <TitleHref href={`/recipes/${recipe.id}`}>{recipe.title}</TitleHref>
-            {userId === props.recipe.owner.id &&
+            <TitleHref href={`${base}/recipes/${recipe.id}`}>{recipe.title}</TitleHref>
+            {userId === props.recipe.owner.id && !props.edit &&
                 <EditButton onClick={edit}>
                     <EditImg src={edit_icon} alt='edit' />
                     <div>Edit</div>
@@ -87,26 +87,26 @@ function Recipe(props) {
                 <div>{typeof(recipe.fans)==='number' ? recipe.fans : recipe.fans.length}</div>
             </Fans>
             <Break />
-            <Header>From <a href={`/users/${recipe.owner.id}`}>{recipe.owner.username}</a>, on {recipe.uploaded_at.slice(0, 10)}</Header>
+            <Header>From <a href={`${base}/users/${recipe.owner.id}`}>{recipe.owner.username}</a>, on {recipe.uploaded_at.slice(0, 10)}</Header>
             <Break />
             {recipe.image && !props.brief &&
-                <RecipeImg src={recipe.image} alt={recipe.title}/>        
+                <RecipeImg src={`http://127.0.0.1:8000${recipe.image}`} alt={recipe.title}/>        
             }
             <Break />
             <hr style={{'margin': '4px', 'width': '100%'}} />
             <Break />
-            {props.brief && !props.page &&
-                <Description>{recipe.description}</Description>
-            }
-            {!props.brief && !props.page &&
-                <Description>{`${recipe.description.slice(0, 200)} ...`}</Description>
+            {!props.page &&
+                <Description>
+                    { ReactHtmlParser(recipe.description.slice(0, 100)) }
+                    <i>and more details...</i>
+                </Description>
             }
             {props.page &&
-                <Description>{recipe.description}</Description>
+                <Description>{ ReactHtmlParser(recipe.description) }</Description>
             }
             <Break />
             {!props.page &&
-                <Button variant='success' style={{'marginTop': '10px'}} onClick={()=>window.location.href=`/recipes/${recipe.id}`}>See details</Button>        
+                <Button variant='success' style={{'marginTop': '10px', 'position': 'absolute', 'right': '5px', 'bottom': '5px'}} onClick={()=>window.location.href=`${base}/recipes/${recipe.id}`}>See details</Button>        
             }
         </Container>
     )

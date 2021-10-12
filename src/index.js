@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { BrowserRouter, HashRouter, Switch, Route, useParams } from 'react-router-dom';
+import { BrowserRouter, Switch, Route, useParams } from 'react-router-dom';
 import ReactNotifications from "react-notifications-component";
 import { CookiesProvider } from 'react-cookie';
 
@@ -15,52 +15,60 @@ import SearchPage from './Pages/SearchPage';
 import Profile from './Pages/Profile';
 import OneRecipe from './Pages/OneRecipe';
 import UploadPage from './Pages/UploadPage';
+import EditPage from './Pages/EditPage';
+import { base } from './base';
 
 const FindProfile = () => {
   const { id } = useParams();
   return <Profile id={id} />;
 }
 
-const FindRecipe = () => {
+const FindRecipe = (props) => {
   const { id } = useParams();
-  return <OneRecipe id={id} />;
+  if (!props.edit) {
+    return <OneRecipe id={id} />;
+  }
+  return <EditPage id={id} />;
 }
 
 ReactDOM.render(
   <React.StrictMode>
     <ReactNotifications />
     <CookiesProvider>
-      <HashRouter basename={'/greek-cooking'}>
+      <BrowserRouter basename={base}>
         <Switch>
-          <Route path='/greek-cooking/login' exact>
+          <Route path='/login' exact>
             <LoginRegister login={true} />
           </Route>
-          <Route path='/greek-cooking/register' exact>
+          <Route path='/register' exact>
             <LoginRegister register={true} />
           </Route>
-          <Route path='/greek-cooking/search' exact>
+          <Route path='/search' exact>
             <SearchPage case='All' />
           </Route>
-          <Route path='/greek-cooking/favourites' exact>
+          <Route path='/favourites' exact>
             <SearchPage case='Favourite' />
           </Route>
-          <Route path='/greek-cooking/my' exact>
+          <Route path='/my' exact>
             <SearchPage case='My' />
           </Route>
-          <Route path='/greek-cooking/users/:id'>
+          <Route path='/users/:id' exact>
             <FindProfile />
           </Route>
-          <Route path='/greek-cooking/recipes/:id'>
+          <Route path='/recipes/:id' exact>
             <FindRecipe />
           </Route>
-          <Route path='/greek-cooking/upload'>
+          <Route path='/recipes/:id/edit' exact>
+            <FindRecipe edit={true} />
+          </Route>
+          <Route path='/upload' exact>
             <UploadPage />
           </Route>
-          <Route path='/greek-cooking' exact>
+          <Route path='/' exact>
             <Home />
           </Route>
         </Switch>
-      </HashRouter>
+      </BrowserRouter>
     </CookiesProvider>
   </React.StrictMode>,
   document.getElementById('root')

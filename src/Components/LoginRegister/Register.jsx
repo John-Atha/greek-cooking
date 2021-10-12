@@ -6,6 +6,7 @@ import person_icon from 'bootstrap-icons/icons/person.svg';
 import lock_icon from 'bootstrap-icons/icons/lock.svg';
 import email_icon from 'bootstrap-icons/icons/envelope.svg'
 import { useCookies } from 'react-cookie';
+import { base } from '../../base';
 
 function Register() {
     const [username, setUsername] = useState('');
@@ -69,7 +70,7 @@ function Register() {
                 setCookie('token', response.data.access, { path: '/' });
                 setSuccess('Logged in successfully.');
                 setError(null); 
-                setTimeout(() => { window.location.href='/' }, 200);
+                setTimeout(() => { window.location.href=base }, 200);
             })
             .catch(() => {
                 setError('But we could not get you inside.\nPlease try logging in.')
@@ -123,7 +124,7 @@ function Register() {
             </Form>
 
             <h6>Already have an account?</h6>
-            <a href='/login'>Login</a>
+            <a href={`${base}/login`}>Login</a>
         </Container>
     )
 }
